@@ -15,7 +15,6 @@ import static com.example.rabbitmq.springrabbitmqproducer.configuration.RabbitMQ
 
 @Configuration
 public class rabbitConfigtion {
-
     public static Map< String,Object> args ; // Thời gian tin nhắn được lưu trên queue tính bằng mili giây,86400000 mili giây là 24h
     static {
         args= new HashMap<>();
@@ -24,17 +23,17 @@ public class rabbitConfigtion {
 
     @Bean
     Queue queueA() {
-        return new Queue(QUEUE_A, false,true,false,args);
+        return new Queue(QUEUE_A, true,false,false,args);
     }
 
     @Bean
     Queue queueB() {
-        return new Queue(QUEUE_B, false,true,false,args);
+        return new Queue(QUEUE_B, true,false,false,args);
     }
 
     @Bean
     Queue queueC() {
-        return new Queue(QUEUE_C, false,true,false,args);
+        return new Queue(QUEUE_C, true,false,false,args);
     }
 
     @Bean
@@ -62,15 +61,15 @@ public class rabbitConfigtion {
     Binding bindingC(Queue queueC, TopicExchange exchange_email) {
         return BindingBuilder.bind(queueC).to(exchange_email).with(ROUTING_C);
     }
+
+    @Bean
     MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory factory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(factory);
         rabbitTemplate.setMessageConverter(messageConverter());
         return rabbitTemplate;
     }
-
 }

@@ -62,6 +62,7 @@ public class rabbitConfigtion {
         return BindingBuilder.bind(queueC).to(exchange_email).with(ROUTING_C);
     }
 
+    @Bean
     MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }

@@ -28,4 +28,5 @@ public class RabbitMQConfiguration {
     // Dùng chung các hàm convert message và rabbit template
 
 
+
 }
