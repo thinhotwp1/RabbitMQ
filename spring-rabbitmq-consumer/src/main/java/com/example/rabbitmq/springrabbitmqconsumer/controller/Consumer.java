@@ -9,32 +9,34 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Consumer {
-//    @RabbitListener(queues = "queue.A")
-//    private void receiveFromA(Message message){
-//        log.info("Message recevied from QUEUEA->{}",message);
-//    }
-//
-//    @RabbitListener(queues = "queue.B")
-//    private void receiveFromB(Message message){
-//        log.info("Message recevied from QUEUEB->{}",message);
-//    }
-//    @RabbitListener(queues = "queue.all")
-//    private void receiveFromAll(Message message){
-//        log.info("Message recevied from ALL_QUEUE->{}",message);
-//    }
 
-    // Header Exchange
+    // DIRECT_EXCHANGE, FANOUT_EXCHANGE, TOPIC_EXCHANGE
     @RabbitListener(queues = "queue.A")
-    private void receiveFromA(String message){
+    private void receiveFromA(Message message){
         log.info("Message recevied from QUEUEA->{}",message);
     }
 
     @RabbitListener(queues = "queue.B")
-    private void receiveFromB(String message){
+    private void receiveFromB(Message message){
         log.info("Message recevied from QUEUEB->{}",message);
     }
     @RabbitListener(queues = "queue.all")
-    private void receiveFromAll(String message){
+    private void receiveFromAll(Message message){
         log.info("Message recevied from ALL_QUEUE->{}",message);
     }
+
+//    // Header Exchange
+//    @RabbitListener(queues = "queue.A")
+//    private void receiveFromA(String message){
+//        log.info("Message recevied from QUEUEA->{}",message);
+//    }
+//
+//    @RabbitListener(queues = "queue.B")
+//    private void receiveFromB(String message){
+//        log.info("Message recevied from QUEUEB->{}",message);
+//    }
+//    @RabbitListener(queues = "queue.all")
+//    private void receiveFromAll(String message){
+//        log.info("Message recevied from ALL_QUEUE->{}",message);
+//    }
 }
