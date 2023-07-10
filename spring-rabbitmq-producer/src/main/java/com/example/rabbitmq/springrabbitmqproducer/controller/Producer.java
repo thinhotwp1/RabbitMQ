@@ -49,7 +49,7 @@ public class Producer {
 ////        rabbitTemplate.convertAndSend(exchange_topic.getName(), "routing.B", message);
 //        return "Message sent successfully";
 //    }
-    @PostMapping("/post_header/{message}")
+    @PostMapping("/post_header/{message}")      // Example: http://localhost:8080/post_header/blue
     public String send(@PathVariable(value="message") String message) {
         MessageProperties messageProperties = new MessageProperties();
         messageProperties.setHeader("color",message);
