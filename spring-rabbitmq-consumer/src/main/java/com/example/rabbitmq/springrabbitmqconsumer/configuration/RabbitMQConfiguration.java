@@ -1,10 +1,7 @@
 package com.example.rabbitmq.springrabbitmqconsumer.configuration;
 
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.HeadersExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -52,14 +49,14 @@ public class RabbitMQConfiguration {
 //    FanoutExchange exchange_fanout(){
 //        return new FanoutExchange(FANOUT_EXCHANGE);
 //    }
-//    @Bean
-//    TopicExchange exchange_topic() {
-//        return new TopicExchange(TOPIC_EXCHANGE);
-//    }
-        @Bean
-        HeadersExchange exchange_header() {
-        return new HeadersExchange(HEADER_EXCHANGE);
+    @Bean
+    TopicExchange exchange_topic() {
+        return new TopicExchange(TOPIC_EXCHANGE);
     }
+//        @Bean
+//        HeadersExchange exchange_header() {
+//        return new HeadersExchange(HEADER_EXCHANGE);
+//    }
 
 
 ////      DirectExchange binding
@@ -86,37 +83,38 @@ public class RabbitMQConfiguration {
 
 
 //     TopicExchange binding
-//    @Bean
-//    Binding bindingA(Queue queueA, TopicExchange exchange_topic) {
-//        return BindingBuilder.bind(queueA).to(exchange_topic).with(ROUTING_A);
+    @Bean
+    Binding bindingA(Queue queueA, TopicExchange exchange_topic) {
+        return BindingBuilder.bind(queueA).to(exchange_topic).with(ROUTING_A);
+    }
+
+    @Bean
+    Binding bindingB(Queue queueB, TopicExchange exchange_topic) {
+        return BindingBuilder.bind(queueB).to(exchange_topic).with(ROUTING_B);
+    }
+    @Bean
+    Binding bindingAll(Queue allQueue, TopicExchange exchange_topic) {
+        return BindingBuilder.bind(allQueue).to(exchange_topic).with(ALL_ROUTING);
+    }
+
+//    //     HeadersExchange binding
+//        @Bean
+//    Binding bindingA(Queue queueA, HeadersExchange exchange_header) {
+//        return BindingBuilder.bind(queueA).to(exchange_header).where("color").matches("red");
 //    }
 //
 //    @Bean
-//    Binding bindingB(Queue queueB, TopicExchange exchange_topic) {
-//        return BindingBuilder.bind(queueB).to(exchange_topic).with(ROUTING_B);
+//    Binding bindingB(Queue queueB, HeadersExchange exchange_header) {
+//        return BindingBuilder.bind(queueB).to(exchange_header).where("color").matches("blue");
 //    }
 //    @Bean
-//    Binding bindingAll(Queue allQueue, TopicExchange exchange_topic) {
-//        return BindingBuilder.bind(allQueue).to(exchange_topic).with(ALL_ROUTING);
+//    Binding bindingAll(Queue allQueue, HeadersExchange exchange_header) {
+//        return BindingBuilder.bind(allQueue).to(exchange_header).where("color").matches("green");
 //    }
-
-    //     HeadersExchange binding
-        @Bean
-    Binding bindingA(Queue queueA, HeadersExchange exchange_header) {
-        return BindingBuilder.bind(queueA).to(exchange_header).where("color").matches("red");
-    }
-
-    @Bean
-    Binding bindingB(Queue queueB, HeadersExchange exchange_header) {
-        return BindingBuilder.bind(queueB).to(exchange_header).where("color").matches("blue");
-    }
-    @Bean
-    Binding bindingAll(Queue allQueue, HeadersExchange exchange_header) {
-        return BindingBuilder.bind(allQueue).to(exchange_header).where("color").matches("green");
-    }
 
 
     // Dùng chung các hàm convert message và rabbit template
+
     @Bean
     MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();

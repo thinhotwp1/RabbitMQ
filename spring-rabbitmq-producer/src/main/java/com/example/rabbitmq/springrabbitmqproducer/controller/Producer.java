@@ -24,11 +24,11 @@ public class Producer {
 //    @Autowired
 //    private FanoutExchange exchange_fanout;
 
-//    @Autowired
-//    private TopicExchange exchange_topic;
-
     @Autowired
-    private HeadersExchange exchange_header;
+    private TopicExchange exchange_topic;
+
+//    @Autowired
+//    private HeadersExchange exchange_header;
 
 //    @PostMapping("/post_direct")
 //    public String send(@RequestBody Message message){
@@ -43,19 +43,19 @@ public class Producer {
 //        return "Message sent successfully";
 //    }
 
-//    @PostMapping("/post_topic")
-//    public String send(@RequestBody Message message) {
-//        rabbitTemplate.convertAndSend(exchange_topic.getName(), "routing.A", message);
-////        rabbitTemplate.convertAndSend(exchange_topic.getName(), "routing.B", message);
-//        return "Message sent successfully";
-//    }
-    @PostMapping("/post_header/{message}")
-    public String send(@PathVariable(value="message") String message) {
-        MessageProperties messageProperties = new MessageProperties();
-        messageProperties.setHeader("color",message);
-        MessageConverter messageConverter = new SimpleMessageConverter();
-        org.springframework.amqp.core.Message message1 = messageConverter.toMessage(message,messageProperties);
-        rabbitTemplate.send(exchange_header.getName(),"",message1);
+    @PostMapping("/post_topic")
+    public String send(@RequestBody Message message) {
+        rabbitTemplate.convertAndSend(exchange_topic.getName(), "routing.A", message);
+//        rabbitTemplate.convertAndSend(exchange_topic.getName(), "routing.B", message);
         return "Message sent successfully";
     }
+//    @PostMapping("/post_header/{message}")
+//    public String send(@PathVariable(value="message") String message) {
+//        MessageProperties messageProperties = new MessageProperties();
+//        messageProperties.setHeader("color",message);
+//        MessageConverter messageConverter = new SimpleMessageConverter();
+//        org.springframework.amqp.core.Message message1 = messageConverter.toMessage(message,messageProperties);
+//        rabbitTemplate.send(exchange_header.getName(),"",message1);
+//        return "Message sent successfully";
+//    }
 }
