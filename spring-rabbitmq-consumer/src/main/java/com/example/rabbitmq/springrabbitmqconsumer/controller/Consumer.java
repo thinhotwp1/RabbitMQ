@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class Consumer {
+
+    //Direct exchange
     @RabbitListener(queues = "queue.A")
     private void receiveFromA(Message message){
         log.info("Message recevied from QUEUEA->{}",message);
